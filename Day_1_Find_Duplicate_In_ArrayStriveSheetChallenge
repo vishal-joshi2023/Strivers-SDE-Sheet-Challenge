@@ -1,0 +1,14 @@
+#include <bits/stdc++.h>
+//#striverDay1.6
+int findDuplicate(vector<int> &arr, int n){
+	
+	int i = 0;
+	while(true){
+
+	  int nxt = arr[i];
+	  if(arr[i]==-1) return i;
+	  
+	  arr[i] = -1;	
+      i = nxt; 		
+	}
+}
