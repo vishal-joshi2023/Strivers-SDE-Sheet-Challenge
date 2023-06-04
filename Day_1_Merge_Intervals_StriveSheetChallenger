@@ -1,0 +1,29 @@
+#include <bits/stdc++.h> 
+//#striverDay1.4
+vector<vector<int>> mergeIntervals(vector<vector<int>> &arr)
+{
+   
+   sort(arr.begin(),arr.end());
+
+   vector<int> interval = arr[0];
+   vector<vector<int>> ans;
+
+   for(int i=0;i<arr.size();i++){
+       
+       auto &currInterval = arr[i];
+
+       if(interval[1]>=currInterval[0]){
+           if(interval[1]<currInterval[1])
+              interval[1] = currInterval[1];
+       }
+       else{
+            ans.push_back(interval);
+            interval = currInterval;    
+       }
+
+       if(i==arr.size()-1)
+         ans.push_back(interval);  
+   }
+
+   return ans;
+}
