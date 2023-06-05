@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+int atoi(string str) {
+
+    int result = 0;
+    int sign = 1;
+   
+    // Iterate through each character of the string
+    for (int i = 0;str[i] != '\0'; ++i) {
+        if(str[0] == '-') 
+          sign = -1;
+        if(isdigit(str[i]))
+          result = result * 10 + (str[i] - '0');
+    }
+  
+    return result * sign;
+}
