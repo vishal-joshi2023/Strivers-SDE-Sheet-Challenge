@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <sstream>
+
+string reverseString(string &str){
+	vector<string> vec;
+    istringstream iss(str);
+    string word;
+    
+    // Split the string into words and store them in the vector
+    while (iss >> word) {
+        vec.push_back(word);
+    }
+    
+    // Reverse the vector
+    reverse(vec.begin(), vec.end());
+    
+	str="";
+    for (const auto& word : vec) {
+         str+=word;
+		 str+=" ";
+    }
+    
+    return str;
+}
