@@ -1,0 +1,36 @@
+#include <bits/stdc++.h> 
+//greedy approch
+int maximumActivities(vector<int> &start, vector<int> &finish) {
+  
+  // approch-> sort by mini finish time and cmp it
+
+  vector<vector<int>> pair;
+  for(int i=0;i<start.size();i++){
+      vector<int> temp = {i,start[i],finish[i]};
+      pair.push_back(temp);
+  }
+  
+  //sort by ending time
+ sort(pair.begin(), pair.end(),[](
+     vector<int>& a,vector<int>& b){
+         return a[2] < b[2];
+     });
+
+  vector<int> activities;
+  activities.push_back(pair[0][0]); // insert 1st activity index;
+  int finishTime = pair[0][2];      // store finish time for cmprisions
+  
+  // cmp finishTime with next Starttime 
+  for(int i=1;i<pair.size();i++){
+     // finishTime < next Activity startTime 
+     if(finishTime <= pair[i][1]){
+        activities.push_back(pair[i][0]);
+        finishTime = pair[i][2] ;
+     }
+  }
+
+  sort(activities.begin(),activities.end());
+
+  return activities.size();
+
+}
