@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+
+
+LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
+{
+   if (!head) return nullptr;
+
+   map<LinkedListNode<int> *,LinkedListNode<int> *> mp;
+
+   LinkedListNode<int> * temp = head;
+   
+   //maping original->new
+   while (temp) {
+     LinkedListNode<int>* newNode = new LinkedListNode<int>(temp->data);
+     mp[temp] = newNode;
+     temp = temp->next;
+   }    
+   
+   //copy ptrs in map easy
+   temp = head;
+
+   while (temp) {
+   
+     //mp[old]->new
+     //mp[temp]->next means new->next;
+     //mp[temp->next] means mp[nextNodeofold] -> map to new node
+     
+     mp[temp]->next = mp[temp->next];
+     mp[temp]->random = mp[temp->random];
+
+     temp = temp->next;
+   }  
+   
+   // head-> new head
+   return mp[head];
+}
