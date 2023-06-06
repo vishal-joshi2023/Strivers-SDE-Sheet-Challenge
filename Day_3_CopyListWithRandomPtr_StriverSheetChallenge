@@ -1,12 +1,51 @@
-#include <bits/stdc++.h>
+void copyList(LinkedListNode<int> *head){
 
+   LinkedListNode<int> * temp = head;
+   // create copy with next ptr
+   // old->next = newNode->next = old->next 
+   // create alternate linking old new old new....
+   while (temp != nullptr) {
+    LinkedListNode<int>* newNode = new LinkedListNode<int>(temp->data);
+    
+    newNode->next = temp->next;
+   
+    temp->next = newNode;
+    
+    temp = newNode->next;
+   }
+       
+}
+void handleRandom(LinkedListNode<int> *head){
+    LinkedListNode<int> *temp = head;
+    
+    //temp->next = new node
+    //temp->random = oldNode
+    while(temp){
+    // very imp edge case
+     if(temp->next)
+      temp->next->random = temp->random!=NULL ? temp->random->next : NULL;
+     
+     temp = temp->next->next;
+    }
+}
 
-LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
-{
-   if (!head) return nullptr;
+LinkedListNode<int> *detach(LinkedListNode<int> *head){
+       LinkedListNode<int> *dummy = new LinkedListNode<int>(-1);
+       LinkedListNode<int> *temp = head;
+       LinkedListNode<int> *tail = dummy;
+        while(temp){
+            tail->next = temp->next;
+            tail = tail->next;
+            temp->next = tail->next;
+            temp = temp->next;
+        }
+        return dummy->next;
+ }
+
+LinkedListNode<int>* extraSpace(LinkedListNode<int> *head){
+// space N    
 
    map<LinkedListNode<int> *,LinkedListNode<int> *> mp;
-
    LinkedListNode<int> * temp = head;
    
    //maping original->new
@@ -20,17 +59,27 @@ LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
    temp = head;
 
    while (temp) {
-   
      //mp[old]->new
-     //mp[temp]->next means new->next;
-     //mp[temp->next] means mp[nextNodeofold] -> map to new node
-     
+     //mp[temp]->next == new->next;
+     //mp[temp->next] == mp[nextNodeofold] -> map to new node
      mp[temp]->next = mp[temp->next];
      mp[temp]->random = mp[temp->random];
 
      temp = temp->next;
    }  
-   
+
    // head-> new head
    return mp[head];
+}
+
+LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
+{
+   if (!head) return nullptr;
+
+   copyList(head);
+   handleRandom(head);
+   //remove old
+   return detach(head);
+   
+   return extraSpace(head);
 }
