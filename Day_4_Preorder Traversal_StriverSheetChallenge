@@ -1,0 +1,32 @@
+void rec(TreeNode *root,vector<int> &ans){
+    if(!root) return;
+    ans.push_back(root->data);
+    rec(root->left,ans);
+    rec(root->right,ans);
+}
+
+vector<int> getPreOrderTraversal(TreeNode *root)
+{
+  vector<int> ans;
+//   rec(root,ans);
+//   return ans;  
+  
+  if(!root) return ans;
+  stack<TreeNode *> stk;
+  stk.push(root);
+
+  while(stk.size()){
+      TreeNode* node = stk.top();
+      stk.pop();
+
+      //root 
+      ans.push_back(node->data);
+      
+      //filo 
+      if(node->right)
+       stk.push(node->right);
+      if(node->left)
+        stk.push(node->left); 
+  }
+  return ans;
+}
