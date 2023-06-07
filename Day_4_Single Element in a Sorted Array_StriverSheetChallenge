@@ -1,0 +1,40 @@
+/* logic binary search 
+
+   odd|even  singleEle  even|odd
+   break array into 2 halfs 
+   if anyEle having odd/even index check its
+   duplicate ele side and eleminate search space 
+*/
+int singleNonDuplicate(vector<int>& arr)
+{
+	//edge cases
+	int n = arr.size();
+	if(n==1 || arr[0]!=arr[1]) return arr[0]; //first ele
+	if(arr[n-2]!=arr[n-1]) return arr[n-1]; //last ele
+	
+	//reduce search space
+	int low = 1;
+	int high = n-2;
+
+	while(low<=high){
+
+	  int mid = (low+high)/2;
+       
+	  // ele found 
+	  if(arr[mid]!=arr[mid+1] && arr[mid]!=arr[mid-1])
+	    return arr[mid];
+
+	  //eleminate searh space 
+	  // odd && even==odd
+      // even && even==odd -> denotes im on left side everything ok go rightside
+	  if(mid&1 && arr[mid]==arr[mid-1] || !(mid&1) && arr[mid]==arr[mid+1]){
+        low = mid+1;
+	  }
+	  else{
+       //even && odd==even
+	   //odd &&  odd==even
+		  high=mid-1;
+	  }
+
+	}
+}
