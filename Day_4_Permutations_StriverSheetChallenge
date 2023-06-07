@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+// no extra space
+void permuatation(string &s,vector<string> &ans,int currIndex){
+    if(currIndex==s.length()){
+      ans.push_back(s);
+      return; 
+    }
+
+    for(int i = currIndex; i < s.length(); i++) {
+      
+      swap(s[i],s[currIndex]);
+      permuatation(s,ans,currIndex+1); 
+      swap(s[i],s[currIndex]);
+
+    }
+}
+// extra space
+void permuatationBrute(string &s,vector<string> &ans,string &temp,vector<bool> &dp){
+   
+   if(temp.length()==s.length()){
+      ans.push_back(temp);
+      return;
+   }
+
+   for(int i=0;i<s.length();i++){ 
+      //unpicked element
+      if(dp[i] == false){
+        dp[i] = true;
+        temp.push_back(s[i]);
+
+        permuatationBrute(s,ans,temp,dp);
+
+        dp[i] = false;
+        temp.pop_back();
+      }
+   }
+}
+vector<string> findPermutations(string &s) {
+     vector<string> ans;
+    // vector<bool> dp(s.length(),false);
+    // string temp="";
+    // permuatationBrute(s,ans,temp,dp);
+    
+     permuatation(s,ans,0); 
+     return ans;
+}
