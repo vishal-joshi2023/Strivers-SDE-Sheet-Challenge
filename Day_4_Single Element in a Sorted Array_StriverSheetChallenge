@@ -24,17 +24,20 @@ int singleNonDuplicate(vector<int>& arr)
 	  if(arr[mid]!=arr[mid+1] && arr[mid]!=arr[mid-1])
 	    return arr[mid];
 
-	  //eleminate searh space 
+	 //eleminate searh space 
+	  // if we in left
 	  // odd && even==odd
-      // even && even==odd -> denotes im on left side everything ok go rightside
+      // even && even==odd -> go right 
+
 	  if(mid&1 && arr[mid]==arr[mid-1] || !(mid&1) && arr[mid]==arr[mid+1]){
         low = mid+1;
 	  }
+	  // if we in right
+	  //even && odd==even
+	  //odd &&  odd==even -> go left
 	  else{
-       //even && odd==even
-	   //odd &&  odd==even
+       
 		  high=mid-1;
 	  }
-
-	}
+    }
 }
