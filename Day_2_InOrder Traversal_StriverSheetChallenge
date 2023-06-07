@@ -1,0 +1,33 @@
+void rec(TreeNode *root,vector<int> &ans){
+    if(!root) return;
+    rec(root->left,ans);
+    ans.push_back(root->data);
+    rec(root->right,ans);
+}
+vector<int> getInOrderTraversal(TreeNode *root)
+{
+  vector<int> ans;
+//   rec(root,ans);
+//   return ans;
+
+  stack<TreeNode*> stk;
+  TreeNode* node = root;
+  
+  while(1){
+      if(node){
+        stk.push(node);
+        node= node->left;  
+      }
+      else
+      {
+          if(!stk.size()) break;
+
+          node = stk.top();
+          stk.pop();
+
+          ans.push_back(node->data);
+          node = node->right;
+      }
+  }
+  return ans;
+}
