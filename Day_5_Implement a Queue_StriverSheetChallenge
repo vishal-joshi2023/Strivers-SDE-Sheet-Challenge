@@ -1,0 +1,154 @@
+//using array
+const int MAX_SIZE = 5000;
+class Queue {
+private:
+    int elements[MAX_SIZE];
+    int frontIndex;
+    int rearIndex;
+
+public:
+    Queue() {
+        frontIndex = -1;
+        rearIndex = -1;
+    }
+
+    bool isEmpty() {
+        return (frontIndex == -1);
+    }
+
+    bool isFull() {
+        return (rearIndex == MAX_SIZE - 1);
+    }
+
+    void enqueue(int data) {
+        
+        if (isFull()) {
+            return;
+        }
+        // for first ele set front
+        if (isEmpty()) {
+            frontIndex = 0;
+        }
+
+        elements[++rearIndex] = data;
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            return -1;
+        }
+
+        int frontElement = elements[frontIndex];
+       
+        if (frontIndex == rearIndex) {
+            // Reset the queue when the last element is dequeued
+            frontIndex = -1;
+            rearIndex = -1;
+        } 
+        else 
+         frontIndex++;
+
+        return frontElement;
+    }
+
+    int front() {
+        if (isEmpty()) {
+            return -1; 
+        }
+        return elements[frontIndex];
+    }
+};
+
+**********
+// using vector
+#include <vector>
+class Queue {
+private:
+    vector<int> elements;
+public:
+    Queue() {
+    }
+    bool isEmpty() {
+        return elements.empty();
+    }
+    void enqueue(int data) {
+        elements.push_back(data);
+    }
+    int dequeue() {
+        if (isEmpty()) {
+            return -1; // Edge case: Return -1 if the queue is empty
+        }
+        int frontElement = elements.front();
+        elements.erase(elements.begin());
+        return frontElement;
+    }
+    int front() {
+        if (isEmpty()) {
+            return -1; // Edge case: Return -1 if the queue is empty
+        }
+        return elements.front();
+    }
+};
+**********
+// using list
+class Queue {
+//linkedList
+private:
+    struct Node {
+     int data;
+     Node* next;
+
+     Node(int value) {
+      data = value;
+      next = nullptr;
+    }
+};
+
+Node* frontNode;
+Node* rearNode;
+
+public:
+    Queue() {
+        frontNode = nullptr;
+        rearNode = nullptr;
+    }
+
+    bool isEmpty() {
+        return (frontNode == nullptr);
+    }
+
+    void enqueue(int data) {
+        Node* newNode = new Node(data);
+        if (isEmpty()) {
+            frontNode = newNode;
+            rearNode = newNode;
+        } else {
+            rearNode->next = newNode;
+            rearNode = newNode;
+        }
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            return -1; 
+        }
+        
+        int frontData = frontNode->data;
+        Node* temp = frontNode;
+        frontNode = frontNode->next;
+        delete temp;
+
+        // if rear==end q empty
+        if (frontNode == nullptr) {
+            rearNode = nullptr;
+        }
+        return frontData;
+    }
+
+    int front() {
+        if (isEmpty()) {
+            return -1; 
+        }
+        return frontNode->data;
+    }
+};
