@@ -1,0 +1,50 @@
+Node* reverse(Node *head){
+    Node* prev = nullptr;
+    Node* current = head;
+    Node* next = nullptr;
+
+    while (current != nullptr) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+
+    return prev;
+}
+
+Node *rotate(Node *head, int k) {
+    int len = 0 ;
+    Node *temp = head;
+  
+    while(temp){
+         len++;
+         temp = temp->next;
+    }
+    if(len==1 or k%len==0) return head;
+
+    int R = (k%len)-1; 
+    
+    head = reverse(head);
+    
+    temp = head;
+    while(R--){
+         temp = temp->next;
+    }
+    Node* a = head;
+    Node* b = temp->next;
+    temp->next=NULL;
+
+    // 0---len
+    head = reverse(a);
+    temp = head;
+    while(temp->next){
+         temp = temp->next;
+    }
+    // len---end
+    temp->next = reverse(b);
+
+
+
+    return head;
+}
