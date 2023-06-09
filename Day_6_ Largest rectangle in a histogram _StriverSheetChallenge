@@ -1,0 +1,60 @@
+
+
+// stack 
+ 
+ #include <bits/stdc++.h>
+ //not the best sol.calcu.left smaller and right smaller then (r-l+1)*arr[i] get max;
+ int sol_1(vector <int> &h){
+   
+   int n = h.size();
+   vector<int> l(n);
+   vector<int> r(n);
+   stack<int> st;
+
+   //left <- smaller boundary(0)
+   for(int i=0;i<n;i++){
+     
+     //Jab tk small ni mil jata pop kro
+     while(st.size() && h[st.top()]>=h[i]){
+       st.pop();
+     }
+     
+     //koi ni hai chota to leftsmall = left indx ie 0 
+     if(st.size()==0) 
+        l[i]=0;
+     else  
+        l[i]=st.top()+1;  //jo indx hai coti+1 
+     
+     st.push(i);   
+    
+   }
+   
+   while(st.size()) st.pop();
+   int maxi=0;
+   
+   //right -> smaller boundary(n-1) + calu max simulti.
+   for(int i=n-1;i>=0;i--){
+     
+     //Jab tk small ni mil jata pop kro
+     while(st.size() && h[st.top()]>=h[i]){
+       st.pop();
+     }
+     
+     //koi ni hai chota to rightsmall = rit indx ie n-1 
+     if(st.size()==0) 
+        r[i]=n-1;
+     else  
+        r[i]=st.top()-1;  //jo indx hai coti-1 bzc right>left 
+     
+     st.push(i);
+
+     //maxi area
+     maxi = max(maxi, (r[i]-l[i]+1)*h[i]);
+  
+   }
+   return maxi;
+ }
+ 
+ int largestRectangle(vector < int > & heights) {
+    return sol_1(heights);
+ }
