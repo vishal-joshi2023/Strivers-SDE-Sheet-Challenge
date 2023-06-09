@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+bool isValid(int row,int col,int n,vector<vector<int>> &board){
+
+    if(col==0) return true;
+    int duprow = row;
+      int dupcol = col;
+
+      while (row >= 0 && col >= 0) {
+        if (board[row][col] == 1)
+          return false;
+        row--;
+        col--;
+      }
+
+      col = dupcol;
+      row = duprow;
+      while (col >= 0) {
+        if (board[row][col] == 1)
+          return false;
+        col--;
+      }
+
+      row = duprow;
+      col = dupcol;
+      while (row < n && col >= 0) {
+        if (board[row][col] == 1)
+          return false;
+        row++;
+        col--;
+      }
+
+      return true;
+}
+void solver(int col,int &n,vector<vector<int>> &board,vector<vector<int>> &ans)
+{
+    if(col == n){
+        vector<int> temp;
+        for(auto & v:board){
+         for(int &i:v){
+           temp.push_back(i); 
+         }
+        }
+        ans.push_back(temp);
+        return ;
+    }
+
+    for(int row = 0;row<n;row++){
+        if(isValid(row,col,n,board)){
+            
+          board[row][col] = 1;
+          solver(col+1,n,board,ans);
+          board[row][col] = 0;
+
+        }
+    }
+}
+vector<vector<int>> solveNQueens(int n) {
+   
+   vector<vector<int>> ans;
+   vector<vector<int>> board(n,vector<int>(n,0));
+   int startCol = 0;
+
+   solver(startCol,n,board,ans);
+   return ans;
+}
