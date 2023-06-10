@@ -1,0 +1,39 @@
+Node* kReverse(Node* head, int k,int n ,int *b) {
+    Node* current = head;
+    int count = 0;
+
+    // Check if there are at least k nodes remaining
+
+    while (k<n && current != nullptr && count < b[k]) {
+        current = current->next;
+        count++;
+    }
+
+    // If there are at least k nodes, reverse them
+    if (k<n && count <= b[k]) {
+
+        current = kReverse(current,k+1,n,b);
+
+        // Reverse the current group of k nodes
+        Node* curr = head;
+		Node* prev = current;
+
+        while (count > 0) {
+
+          Node *next = curr->next;
+          curr->next = prev;
+          prev = curr;
+          curr = next;
+
+          count--;
+        }
+        head = prev; // Update head to the new group after reversal
+     }
+
+    return head;
+}
+
+Node* getListAfterReverseOperation(Node* head, int n, int b[]) {
+    
+    return kReverse(head,0,n,b);
+}
