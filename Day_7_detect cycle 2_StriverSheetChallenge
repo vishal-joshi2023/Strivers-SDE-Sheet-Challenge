@@ -1,0 +1,35 @@
+Node* cycle(Node *head)
+{
+    Node* slow=head;
+    Node* fast=head;
+    while(slow != NULL && fast != NULL)
+    {  
+        slow=slow->next;
+        fast=fast->next;
+
+        if(fast != NULL)
+         fast=fast->next;
+
+        if(slow==fast) return slow;
+    }
+    return NULL;
+}
+
+Node *firstNode(Node *head)
+{
+    if(head == NULL)
+     return NULL;
+
+    Node* slow=head;
+    Node* fast = cycle(head);
+   
+    if(fast == NULL)
+      return NULL;
+
+    while(slow != fast)
+    {
+        slow=slow->next;
+        fast=fast->next;
+    }
+    return slow;
+}
