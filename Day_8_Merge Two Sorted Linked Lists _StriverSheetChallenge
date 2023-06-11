@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+
+Node<int>* sortTwoLists(Node<int>* first, Node<int>* second)
+{
+     if(!first) return second;
+     if(!second) return first;
+
+     Node<int>* start;
+     Node<int>* end;
+
+     if(first->data < second->data)
+     {
+       start = first;
+       end = first;
+       first = first->next;
+     }
+     else{
+       start = second;
+       end = second;
+       second = second->next; 
+     }
+
+     while(first && second){
+
+        if(first->data < second->data){
+            end->next = first;
+            end = first;
+            first = first->next;
+        }
+        else{
+            end->next = second;
+            end = second;
+            second = second->next;  
+        }
+     }
+
+     while(first){
+        end->next = first;
+        end = first;
+        first = first->next; 
+     }
+     while(second){
+        end->next = second;
+        end = second;
+        second = second->next;  
+     }
+     
+     return start;
+} 
