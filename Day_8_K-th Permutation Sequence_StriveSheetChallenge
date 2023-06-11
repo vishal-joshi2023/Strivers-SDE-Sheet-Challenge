@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+string kthPermutation(int n, int k) {
+   
+   vector<int> arr;
+   int fact= 1; // initially  fact is for n-1 part
+
+   for(int i=1;i<n;i++){
+     fact = fact * i;  // calcu fact for ele - {e,e,e} ie 3fact
+     arr.push_back(i); // 1 2 3
+   } 
+   arr.push_back(n); // 1 2 3 4
+
+   string ans = "";
+   k = k-1 ; // 0-based indexing
+
+   while(true){
+       //which ele is in the seq
+       int indx = k/fact;
+
+       ans = ans + to_string(arr[indx]);
+
+       arr.erase(arr.begin()+ indx); //remove ele after selection
+
+       if(arr.size()==0) break;
+       
+       //for next itration 
+       k = k % fact; 
+       fact = fact/arr.size();
+   }
+
+   return ans;
+   
+}
