@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+void fill(vector<vector<int>> &image, int x, int y, int newColor,int oldColor){
+    
+    if( x<0 || y<0 || x>=image.size() || y>=image[0].size() || image[x][y]!=oldColor)
+     return;
+     
+    image[x][y] = newColor;
+    
+    fill(image,x-1,y,newColor,oldColor); 
+    fill(image,x+1,y,newColor,oldColor); 
+    fill(image,x,y-1,newColor,oldColor); 
+    fill(image,x,y+1,newColor,oldColor); 
+}
+vector<vector<int>> floodFill(vector<vector<int>> &image, int x, int y, int newColor)
+{
+   int oldColor = image[x][y];
+   
+   if(oldColor!=newColor)
+    fill(image,x,y,newColor,oldColor);
+
+  return image;
+}
