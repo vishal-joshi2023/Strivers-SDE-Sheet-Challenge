@@ -10,18 +10,13 @@ void findPath(vector<vector<int> > &maze,int i,int j,int n,vector<vector<int> > 
    
    if(i==n-1 && j==n-1){
     path[i][j]=1;
-    
     vector<int> v;
-
     // Transfer rows of path
-    for(auto & p : path){
+    for(auto & p : path)
       for (auto & k : p)
          v.push_back(k); 
-    }
     
     ans.push_back(v);
-
-    path[i][j]=0;
     return;
    }
 
@@ -35,4 +30,28 @@ vector<vector<int> > ratInAMaze(vector<vector<int> > &maze, int n){
    vector<vector<int>> path(n,vector<int>(n,0));
    findPath(maze,0,0,n,path);
    return ans;
+}
+
+.........trick
+ 
+void helper(vector<vector<int> > &maze, int n, vector<vector<int> > &ans, vector<int>&temp, int row, int col){
+  if(row<0 || row>=n || col<0 || col>=n || maze[row][col]==0 || temp[row*n+col]==1)
+    return;
+  if(row == n-1 && col==n-1)
+  {
+    temp[row*n+col] = 1;
+    ans.push_back(temp);
+  }
+  temp[row*n+col] = 1;
+  helper(maze,n,ans,temp,row,col+1);
+  helper(maze,n,ans,temp,row-1,col);
+  helper(maze,n,ans,temp,row,col-1);
+  helper(maze,n,ans,temp,row+1,col);
+  temp[row*n+col] = 0;
+}
+vector<vector<int> > ratInAMaze(vector<vector<int> > &maze, int n){
+  vector<vector<int>> ans;
+  vector<int>temp(n*n,0);
+  helper(maze,n,ans,temp,0,0);
+  return ans;
 }
