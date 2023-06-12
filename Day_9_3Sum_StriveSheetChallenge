@@ -1,0 +1,55 @@
+#include <bits/stdc++.h> 
+vector<vector<int>> findTriplets(vector<int>arr, int n, int K) {
+	
+	set<vector<int>> st2;
+	vector<vector<int>> ans;
+
+    // TLE
+	// for(int i=0;i<n-1;i++){
+	//   set<int> st;
+    //   for(int j=i+1;j<n;j++){
+         
+	// 	 int tar = K- (arr[i]+arr[j]);
+	// 	 if(st.count(tar)){
+	// 	   vector<int> temp = {tar,arr[i],arr[j]};
+	// 	   sort(temp.begin(),temp.end());
+    //        st2.insert(temp);
+	// 	 }
+	// 	 st.insert(arr[j]);
+	//   }
+	// }
+	// for(auto &v :st2) ans.push_back(v);
+
+    sort(arr.begin(),arr.end());
+    
+	for(int i=0;i<n-2;i++){
+      if(i>0 && arr[i]==arr[i-1]) continue;
+
+	  int j=i+1;
+	  int k=n-1;
+      
+	  while(j<k){
+
+	    int tar = arr[i]+arr[j]+arr[k];
+      
+	    if(tar==K){
+
+		  vector<int> temp = {arr[i],arr[j],arr[k]};
+		  ans.push_back(temp);
+
+		  while(arr[j]==arr[j+1]) j++;
+		  while(arr[k]==arr[k-1]) k--; 
+
+		  //to skip last dup
+		  j++;
+		  k--;
+	    }
+	    else if(tar<K)
+		  j++;
+	    else
+		  k--;
+	  }
+	}
+
+	return ans;
+}
