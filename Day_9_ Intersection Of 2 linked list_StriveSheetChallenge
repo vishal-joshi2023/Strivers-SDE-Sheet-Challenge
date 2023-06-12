@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+int len(Node *head){
+    Node* temp = head;
+    
+    int l = 0;
+    while(temp){
+        temp = temp->next;
+        l++;
+    }
+    return l;
+}
+// my sol without space
+Node* findIntersection(Node *firstHead, Node *secondHead)
+{
+    int len1 = len(firstHead);
+    int len2 = len(secondHead);
+    
+    Node *a = firstHead;
+    Node *b = secondHead;
+    
+    int diff = abs(len1-len2);
+    
+    if(len1>len2){
+        while(diff--){
+            a = a->next;
+        }
+    }
+    else{
+        while(diff--){
+            b = b->next;
+        }
+    }
+    
+    while(a!=b){
+        
+       a = a->next;
+       b = b->next;
+    }
+   
+   return b;
+}
+
+// with space
+// Node * findIntersection(Node *firstHead, Node *secondHead)
+// {
+//     unordered_map< Node * , int > mapping ;
+
+//     Node * head1 = firstHead;
+//     Node * head2 = secondHead;
+
+//     while(head1!=NULL){
+//         mapping[head1]++;
+//         head1=head1->next;
+//     }
+
+//     while(head2!=NULL){
+//         mapping[head2]++;
+//         if(mapping[head2]>1)
+//             return head2;
+//         head2=head2->next;
+
+//     }
+
+//     return NULL;
+// }
