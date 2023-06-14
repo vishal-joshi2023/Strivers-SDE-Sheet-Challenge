@@ -1,0 +1,41 @@
+//optimize sol ->use merge linked list simple 
+
+//my jugad
+#include<bits/stdc++.h>
+Node* flattenLinkedList(Node* head) 
+{  
+
+	Node* root  = head;
+    Node* nextOfRoot;
+	while(root){
+
+		nextOfRoot = root->next;
+		root->next = NULL;
+
+		while(root->child){
+			root = root->child;
+		}   
+	
+		root->child = nextOfRoot;
+		root = nextOfRoot;
+	}
+
+     root  = head;
+     vector<int> v;
+
+     while(root){
+      v.push_back(root->data);
+      root = root->child ;
+     }
+
+     sort(v.begin(),v.end());
+     root  = head;
+     int i=0;
+
+     while(root){
+      root->data = v[i++];
+      root = root->child ;
+     }
+
+	return head;
+}
