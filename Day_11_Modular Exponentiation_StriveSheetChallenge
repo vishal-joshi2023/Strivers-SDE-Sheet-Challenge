@@ -1,0 +1,18 @@
+#include <bits/stdc++.h>
+
+int modularExponentiation(int x, int n, int m) {
+
+int res =1;
+
+while(n){
+  // add res when odd conditon
+  if((n&1)
+   res = ((res%m) * (x%m))%m;
+  
+  x = ((x%m)*(x%m))%m;
+  //reduce the pow
+  n = n>>1;
+
+}
+return res;
+}
