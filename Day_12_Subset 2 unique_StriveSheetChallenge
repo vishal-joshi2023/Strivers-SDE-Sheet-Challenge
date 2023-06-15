@@ -1,0 +1,33 @@
+#include <bits/stdc++.h> 
+void subset(int index , vector<int> &arr, vector<int> &res,vector<vector<int>> &ans){
+
+    ans.push_back(res);
+    if(index>=arr.size())return;
+
+
+    for(int i=index;i<arr.size();i++){
+
+       if(i>index && arr[i]==arr[i-1])continue; //duplicate
+
+       res.push_back(arr[i]);
+
+       subset(i+1,arr,res,ans);
+
+       res.pop_back();
+
+    }
+}
+
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr)
+{
+   // Write your code here.
+ 
+    sort(arr.begin(), arr.end());
+
+    vector<int> res;
+    vector<vector<int>> ans;
+
+    subset(0, arr, res,ans);
+
+    return ans;
+}
