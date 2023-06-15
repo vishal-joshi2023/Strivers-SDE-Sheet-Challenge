@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+void funSort(stack<int> &stack, int ele){
+
+	if(stack.empty() || stack.top()<=ele){
+		stack.push(ele);
+		return;
+	}
+
+	int maxEle = stack.top();
+	stack.pop();
+
+	funSort(stack,ele); // check for other that is lesser
+
+	stack.push(maxEle); // when rec control came stack is sorted insert MaxEle
+
+	return;
+}
+void sortStack(stack<int> &stack)
+{
+    if(stack.empty()) return;
+
+	int topEle = stack.top();
+	stack.pop();
+	
+	sortStack(stack); // empty stack one by one
+
+	funSort(stack,topEle); // sort stack with one by one element
+}
