@@ -1,0 +1,54 @@
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int n = size(grid);
+
+        if(grid[0][0]==1 || grid[n-1][n-1]==1)
+            return -1;
+
+
+        //dijstra algo logic without pq bcz of even increment
+        queue<pair<int,pair<int ,int>>> q;
+        // 00 cordinate start
+        q.push({1,{0,0}}); 
+        
+        // mark vistied
+        grid[0][0] = -1;
+
+        int drow[] = {-1, 0, +1, 0, 1, -1, -1, 1};
+        int dcol[] = {0, 1, 0, -1, 1, 1, -1, -1}; 
+
+        // chalte jao or jovist hogya ussko -1 kr only valid 0 ko visit kro
+        // -1 krne se valid visit coondition true ni hogi to revisit nhi hoga
+        // hr visit pe pre Valpath++ kro agr visited me distination
+        // ho to return kro
+
+        while(q.size()){
+
+            auto val = q.front();
+
+            int i = val.second.first;
+            int j = val.second.second;
+            int minPath = val.first;
+
+            q.pop();
+
+            if(i==n-1 && j==n-1) return minPath;
+
+            for(int k=0;k<8;k++){
+              int r = i + drow[k];
+              int c = j + dcol[k];
+
+              if(r>=0 && r<n && c>=0 && c<n && grid[r][c]==0){
+                grid[r][c] = 1;
+                q.push({minPath+1,{r,c}});
+              }
+            }
+        }
+
+      return -1;
+           
+    }
+  
+
+};
