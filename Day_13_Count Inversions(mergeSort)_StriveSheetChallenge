@@ -1,0 +1,84 @@
+#include <bits/stdc++.h> 
+long long merge(long long *arr, int low, int mid, int high) {
+
+    int left, right;
+    left = low;
+    right = mid + 1;
+    vector<long long> temp;
+
+    long long count = 0;
+
+    while (left <= mid && right <= high) {
+
+        if (arr[left] <= arr[right]) {
+            temp.push_back(arr[left]);
+            left++;
+
+        } else {
+            temp.push_back(arr[right]);
+            right++;
+
+            // Increment the count for inversions
+            count += (mid - left + 1); 
+        }
+    }
+
+    while (left <= mid) {
+        temp.push_back(arr[left]);
+        left++;
+    }
+    while (right <= high) {
+        temp.push_back(arr[right]);
+        right++;
+    }
+
+    for (int i = low; i <= high; i++) 
+        arr[i] = temp[i - low];
+    
+    return count;
+}
+
+long long merges(long long *arr, int low, int high) {
+
+    long long count = 0;
+
+    if (low < high){
+        int mid = (low + high) / 2;
+
+        count += merges(arr, low, mid);
+        count += merges(arr, mid + 1, high);
+
+        count += merge(arr, low, mid, high);
+    }
+    return count;
+}
+long long getInversions(long long *arr, int n){  
+    
+    //brute -> n2 2 loop sorting 
+     
+    //merge sort
+    return merges(arr, 0, n - 1);
+
+    //lower Bound
+    // long long ans = 0;
+    // vector<long long> v;
+    // for(int j=0; j<n; j++){
+
+    //     int ele = arr[j];
+    //     if(v.size()==0){
+    //       v.push_back(ele);
+    //       continue;
+    //     }
+
+    //     if(v.back() < ele)
+    //       v.push_back(ele);
+    //     else {
+    //       int d = lower_bound(v.begin(), v.end(), ele) - v.begin();
+
+    //       v.insert(v.begin() + d, ele);
+
+    //       ans = ans + v.size() - 1 - d;
+    //     }
+    // }
+    // return ans;
+}
