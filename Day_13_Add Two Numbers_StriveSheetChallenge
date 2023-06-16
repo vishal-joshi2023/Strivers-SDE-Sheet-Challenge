@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+Node *addTwoNumbers(Node *l1, Node *l2)
+{
+      Node* a = l1;
+      Node* b = l2;
+        
+      Node* newl = new Node(0); //dummy head
+      Node* cuu = newl;
+      int carry=0; 
+          
+      while(a != NULL  ||  b != NULL || carry!=0){ //till carry remaning
+
+       //Any list ends take zero as value
+       int l1_val = (a!=NULL)? a->data : 0;
+       int l2_val = (b!=NULL)? b->data : 0;    
+        
+       int sum = carry + l1_val + l2_val;
+
+       // maxNode sum 9+9 = 18>=10 carry =1
+       carry = sum/10;
+
+       cuu->next = new Node(sum%10); // num except carry
+      
+       cuu = cuu->next;
+             
+       if(a!=NULL) a = a->next;
+       if(b!=NULL) b = b->next;
+
+     }
+     
+     return newl->next;
+}
