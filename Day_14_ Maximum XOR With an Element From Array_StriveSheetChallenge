@@ -1,0 +1,92 @@
+#include<bits/stdc++.h>
+struct Node {
+
+    Node *links[2]; 
+ 
+    bool containsKey(int ind) {
+        return (links[ind] != NULL); 
+    }
+    Node* get(int ind) {
+        return links[ind]; 
+    }
+    void put(int ind, Node* node) {
+        links[ind] = node; 
+    }
+}; 
+
+class Trie {
+
+    Node* root; 
+
+public:
+  Trie() 
+  { 
+	root = new Node(); 
+  }
+
+ void insert(int num) {
+        Node* node = root;
+        // cout << num << endl; 
+        for(int i = 31;i>=0;i--) {
+            int bit = (num >> i) & 1; 
+            if(!node->containsKey(bit)) {
+                node->put(bit, new Node()); 
+            }
+            node = node->get(bit); 
+        }
+    }
+    
+    int maxXOR(int num) {
+        Node* node = root; 
+        int maxNum = 0; 
+        for(int i = 31;i>=0;i--) {
+            int bit = (num >> i) & 1; 
+            if(node->containsKey(!bit)) {
+                maxNum = maxNum | (1<<i); 
+                node = node->get(!bit); 
+            }
+            else {
+                node = node->get(bit); 
+            }
+        }
+        return maxNum; 
+    } 
+
+};
+
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int>> &q) {
+    
+	int qS = q.size();
+	sort(arr.begin(),arr.end());
+	      
+	vector< pair<int, pair<int,int>>> Oq;
+	vector<int> ans(qS,-1);
+
+	int index = 0;
+    for(auto &it: q) {
+        Oq.push_back({it[1],{it[0], index++}}); 
+    }
+
+	sort(Oq.begin(),Oq.end());
+    
+	int i = 0;
+	int n = arr.size();
+	Trie t;
+
+	for(auto &it : Oq){
+
+	    int A = it.first;
+		int X = it.second.first;
+		int ind = it.second.second;
+       
+		while(i < n && arr[i] <= A) {
+            t.insert(arr[i]); 
+            i++; 
+        }
+
+		if(i!=0)
+		 ans[ind] = t.maxXOR(X);	
+	}
+    return ans;
+
+}
