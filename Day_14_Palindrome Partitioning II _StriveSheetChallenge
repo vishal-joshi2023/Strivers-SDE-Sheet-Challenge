@@ -1,0 +1,38 @@
+#include <bits/stdc++.h> 
+bool isPal(string &s,int start,int end){
+       while(start<end)
+          if(s[start++]!=s[end--]) return false;
+          
+          return true;
+    }
+
+int fun(int index,string &s,vector<int> &dp){
+       
+        if(index == s.length()){
+            return 0; // no string left : all pal strs captured
+        }
+
+        if(dp[index]!=-1) return dp[index];
+
+        int mini = INT_MAX;
+
+        for(int i=index;i<s.length();i++){
+
+             // add 1 for every successful Partition pal string formed
+            if(isPal(s,index,i)){
+                mini = min(mini , 1 + fun(i+1,s,dp));//vohi take vala part in one line
+            }
+        }
+
+        return dp[index] = mini;
+}
+
+
+int palindromePartitioning(string s) 
+{ 
+     vector<int> dp(s.length(),-1);
+     // a|b|c| 3-1 = 2 a|b|c
+    //it gives last partition count also after end so -1 to get inner partition count
+     return fun(0,s,dp)-1;   
+ 
+}
