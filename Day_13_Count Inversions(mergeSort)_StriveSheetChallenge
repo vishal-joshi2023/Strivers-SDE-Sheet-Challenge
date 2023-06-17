@@ -1,4 +1,3 @@
-#include <bits/stdc++.h> 
 long long merge(long long *arr, int low, int mid, int high) {
 
     int left, right;
@@ -57,28 +56,28 @@ long long getInversions(long long *arr, int n){
     //brute -> n2 2 loop sorting 
      
     //merge sort
-    return merges(arr, 0, n - 1);
+    //return merges(arr, 0, n - 1);
 
     //lower Bound
-    // long long ans = 0;
-    // vector<long long> v;
-    // for(int j=0; j<n; j++){
+    long long ans = 0;
+    vector<long long> v;
+    for(int j=0; j<n; j++){
 
-    //     int ele = arr[j];
-    //     if(v.size()==0){
-    //       v.push_back(ele);
-    //       continue;
-    //     }
+        int ele = arr[j];
+        if(v.size()==0){
+          v.push_back(ele);
+          continue;
+        }
 
-    //     if(v.back() < ele)
-    //       v.push_back(ele);
-    //     else {
-    //       int d = lower_bound(v.begin(), v.end(), ele) - v.begin();
+        if(v.back() < ele) v.push_back(ele);
+        else {
 
-    //       v.insert(v.begin() + d, ele);
+          int d = lower_bound(v.begin(), v.end(), ele) - v.begin();
 
-    //       ans = ans + v.size() - 1 - d;
-    //     }
-    // }
-    // return ans;
+          ans = ans + v.size() - d; 
+          
+          v.insert(v.begin() + d, ele); 
+        }
+    }
+    return ans;
 }
