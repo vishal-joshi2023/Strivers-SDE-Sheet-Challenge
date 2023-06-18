@@ -1,0 +1,44 @@
+#include <bits/stdc++.h> 
+
+//aggressive cows 
+bool canPlace(vector<int> arr , int n ,  int c,int distance){
+   
+   //first cow;
+   int cordi = arr[0];
+   c--;
+
+   for(int i=1;i<n && c;i++){
+	 if(arr[i]-cordi >= distance){
+		cordi = arr[i];
+		c--;
+	 }
+   }
+  
+   return (c==0); // c==0 all cow placed
+}
+
+int chessTournament(vector<int> arr , int n ,  int c){
+	
+	//brute -> recursion place each player/cows
+    // n^2 -> start from mini 1 distance to n if mini cows not placed stop return pos-1 forloop 1->pos
+
+	sort( arr.begin(),arr.end());
+    
+	int l = 1; //start point
+	int h = arr[n-1]-arr[0];
+    int largestMini = 0;
+
+	while(l<=h){
+ 
+		int mid = (l+h)/2; // >> 1 /by 2
+	    
+		if(canPlace(arr,n,c,mid)){
+			largestMini = mid;
+			l = mid+1;
+		}else{
+			h = mid-1;
+		}
+	}
+    
+	return largestMini;
+}
