@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+
+string helper(string &s){
+
+  string stemp = "";
+  s += "$" ;
+  int startPtr = 0;
+
+  for(int i=1;i<s.length();i++){
+
+    if(s[i]!=s[i-1]){
+
+      int freq = i-startPtr; // calcu freq by s e index
+      
+      stemp+=to_string(freq); // push freq first
+      stemp.push_back(s[i-1]); // push ele of that freq'
+
+      startPtr=i;             // set last ptr as start for next ele freq count   
+    }
+  }
+  
+  return stemp;
+}
+
+string writeAsYouSpeak(int n) 
+{
+   string ans = "1";
+	 for(int i=2;i<=n;i++){
+       ans  = helper(ans);     
+   }
+   return ans;
+} 
