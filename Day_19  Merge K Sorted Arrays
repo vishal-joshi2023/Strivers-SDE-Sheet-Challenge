@@ -1,0 +1,64 @@
+#include <bits/stdc++.h> 
+//using PQ  k*nlogn 
+vector<int> mergePQ(vector<vector<int>>&kArrays, int k){
+
+    priority_queue<int, vector<int>, greater<int>> pq;
+    int n = 1;
+
+    for(int i=0;i<k;i++){
+
+        int n = kArrays[i].size();
+        for(int j=0;j<n;j++)
+          pq.push(kArrays[i][j]);
+    }
+    vector<int> ans;
+
+    while(!pq.empty()){
+
+        ans.push_back(pq.top());
+        pq.pop();
+    }
+    return ans;
+}
+// merge array extra space
+vector<int> mergeArrays(const vector<int>& arr1, const vector<int>& arr2) {
+    vector<int> merged;
+    int size1 = arr1.size();
+    int size2 = arr2.size();
+    int i = 0, j = 0;
+
+    while (i < size1 && j < size2) {
+        if (arr1[i] <= arr2[j]) {
+            merged.push_back(arr1[i]);
+            i++;
+        } else {
+            merged.push_back(arr2[j]);
+            j++;
+        }
+    }
+
+    while (i < size1) {
+        merged.push_back(arr1[i]);
+        i++;
+    }
+
+    while (j < size2) {
+        merged.push_back(arr2[j]);
+        j++;
+    }
+
+    return merged;
+}
+vector<int> mergeKSortedArrays(vector<vector<int>>&kArrays, int k)
+{
+
+    // return mergePQ(kArrays,k);
+
+     vector<int> merge ;
+
+     for(auto &arr :kArrays){
+         merge = mergeArrays(merge,arr);
+     }
+
+     return merge;
+}
