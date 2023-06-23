@@ -1,0 +1,19 @@
+#include <bits/stdc++.h> 
+int kthLargest(vector<int>& arr, int size, int K)
+{
+	//min heap -> kth ele at top fixed k size heap 
+	 priority_queue<int ,vector<int>,greater<int>>pq;
+		
+     for(int i=0;i<K;++i) //insert k ele first
+	   pq.push(arr[i]);
+		
+     
+     for(int i=K;i<size;++i){
+		if(pq.top()<arr[i]){
+		  pq.pop();
+		  pq.push(arr[i]);
+		}
+	 }
+
+	 return pq.top(); // kth at top
+}
