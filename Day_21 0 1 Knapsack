@@ -1,0 +1,114 @@
+#include <bits/stdc++.h> 
+
+int recursion(vector<int> weight, vector<int> value, int i, int maxWeight){
+    if(maxWeight==0) return 0;
+    if(i==0 ){
+        if(maxWeight >= weight[0]) return value[0];
+        return 0;
+    }
+    
+    int pick  = INT_MIN;
+    if(weight[i]<=maxWeight) pick =  value[i] + recursion(weight,value,i-1,maxWeight-weight[i]);
+    
+    int skip = 0 + recursion(weight,value,i-1,maxWeight);
+    
+    return max(pick,skip);
+}
+int memoiz(vector<int> weight, vector<int> value, int i, int maxWeight, vector<vector<int>> &dp){
+    if(maxWeight==0) return 0;
+    if(i==0 ){
+        if(maxWeight >= weight[0]) return value[0];
+        return 0;
+    }
+    if(dp[i][maxWeight]!=-1) return dp[i][maxWeight];
+    
+    int pick  = INT_MIN;
+    if(weight[i]<=maxWeight) pick =  value[i] + memoiz(weight,value,i-1,maxWeight-weight[i],dp);
+    
+    int skip = 0 + memoiz(weight,value,i-1,maxWeight,dp);
+    
+    return dp[i][maxWeight] = max(pick,skip);
+}
+
+int maxProfit(vector<int> &value, vector<int> &weight, int n, int maxWeight) 
+{    
+    //tc 2^n
+	//return recursion(weight,value,n-1,maxWeight);
+    
+    //dp->memo tc n  sc n*(w+1)
+    // vector<vector<int>> dp(n,vector<int>(maxWeight+1,-1));    
+    // return memoiz(weight,value,n-1,maxWeight,dp);
+    
+   
+    //Tab
+    vector<vector<int>> dp(n,vector<int> (maxWeight+1,0)); 
+    
+    //if(maxWeight >= weight[0]) return value[0];
+    for(int i=weight[0];i<=maxWeight ;i++) dp[0][i]=value[0];
+   
+    for(int i=1;i<n;i++){
+        for(int w=0;w<=maxWeight;w++){
+            int pick  = INT_MIN;
+            
+            if(weight[i]<=w)
+                pick =  value[i] + dp[i-1][w-weight[i]];
+    
+            int skip = dp[i-1][w];
+    
+            dp[i][w] = max(pick,skip);
+        }
+    }
+    return dp[n-1][maxWeight];
+    
+
+    /*
+               //space
+    vector<int> pre(maxWeight+1,0),curr(maxWeight+1,0);
+    
+    for(int i=weight[0];i<=maxWeight ;i++)  
+        pre[i]=value[0];
+    
+    
+    for(int i=1;i<n;i++){
+        for(int w=0;w<=maxWeight;w++){
+            int pick  = INT_MIN;
+            
+            if(weight[i]<=w)
+                pick =  value[i] + pre[w-weight[i]];
+    
+            int skip = pre[w];
+    
+           curr[w] = max(pick,skip);
+        }
+        pre =curr;
+    }
+    return pre[maxWeight];
+    */
+    
+    //more only 1vector
+    vector<int> pre(maxWeight+1,0);
+     for(int i=weight[0];i<=maxWeight ;i++)  
+        pre[i]=value[0];
+    
+     for(int i=1;i<n;i++){
+        for(int w=maxWeight;w>=0;w--){ //its easy to start from back bcz we have to less depend on pre if we starts from MaxWeight
+            int pick  = INT_MIN;
+            
+            if(weight[i]<=w)
+                pick =  value[i] + pre[w-weight[i]];
+    
+            int skip = pre[w];
+    
+           pre[w] = max(pick,skip);
+        }
+       
+    }
+    return pre[maxWeight];
+    
+    
+    
+    
+    
+    
+    
+}
