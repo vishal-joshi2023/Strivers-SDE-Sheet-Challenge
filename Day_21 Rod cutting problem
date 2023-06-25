@@ -1,0 +1,115 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int rec(vector<int> &arr, int i,int x){
+
+    if(x==0) return 0;
+	if(i==0) return arr[i] * x; 
+    
+
+	int skip = 0 + rec(arr,i-1,x);
+	
+	int pick = INT_MIN;
+	if(x >= i+1) 
+	 pick = arr[i] +  rec(arr,i,x-i-1);
+
+	return max(pick,skip);    
+}
+
+
+int memo(vector<int> &arr, int i,int x,vector<vector<int>> &dp){
+
+    if(x==0) return 0;
+	if(i==0) return arr[0] * x; 
+    if(dp[i][x] != -1) return dp[i][x];
+
+	int skip = 0 + memo(arr,i-1,x,dp);
+
+	int pick = INT_MIN;
+	if(x >= i+1) 
+	 pick = arr[i] + memo(arr,i,x-i-1,dp);
+
+	return dp[i][x]= max(pick,skip);    
+}
+
+
+int tabu(vector<int> &arr, int n){
+   vector<vector<int>> dp(n,vector<int>(n+1,0));
+
+   for(int x=0 ; x<=n ; x++){
+	   dp[0][x] = arr[0] * x; 
+   }
+
+   for(int i=1 ; i<n ; i++){
+     for (int x = 0; x <= n; x++) {
+
+      int skip = dp[i-1][x];
+
+	  int pick = INT_MIN;
+	  if(x >= i+1) 
+	  pick = arr[i] +dp[i][x-i-1];
+
+	  dp[i][x]= max(pick,skip);    
+	 }
+    }
+
+   return dp[n-1][n]; 	 
+}
+
+int spOpt_1(vector<int> &arr, int n){
+
+   vector<int> pre(n+1,0),curr(n+1,0);
+
+   for(int x=0 ; x<=n ; x++){
+	   pre[x] = arr[0] * x; 
+   }
+
+   for(int i=1 ; i<n ; i++){
+     for (int x = 0; x <= n; x++) {
+
+      int skip = pre[x];
+
+	  int pick = INT_MIN;
+	  if(x >= i+1) 
+	  pick = arr[i] +curr[x-i-1];
+
+	  curr[x]= max(pick,skip);    
+	 }
+	 pre = curr;
+    }
+
+   return pre[n]; 
+}
+
+
+
+
+int cutRod(vector<int> &arr, int n) 
+{ 
+    //return rec(arr, n - 1, n);
+	//return memo(arr, n - 1, n,dp); 
+	//return tabu(arr, n);
+    //return spOpt_1(arr, n);
+
+   vector<int> pre(n+1,0);
+
+   for(int x=0 ; x<=n ; x++){
+	   pre[x] = arr[0] * x; 
+   }
+
+   for(int i=1 ; i<n ; i++){
+      for (int x = 0; x <= n; x++) {
+
+      int skip = pre[x];
+
+	  int pick = INT_MIN;
+	  if(x >= i+1) 
+	  pick = arr[i] +pre[x-i-1];
+
+	  pre[x]= max(pick,skip);    
+	 }
+	
+    }
+
+   return pre[n]; 
+}
