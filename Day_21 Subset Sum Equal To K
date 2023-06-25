@@ -1,0 +1,56 @@
+#include <bits/stdc++.h> 
+bool fun(vector<int> &arr,int i,int target,vector<vector<int>>&dp ){
+    
+    if(target<0) return false;
+    if(target==0 ) return true;
+    if(i==0) return target==arr[i];
+    if(dp[i][target]!=-1) return dp[i][target];
+    
+    bool pick = fun(arr,i-1,target-arr[i],dp);
+    bool skip = fun(arr,i-1,target,dp);
+    
+    return dp[i][target] = pick | skip;
+    
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+   // vector<vector<int>> dp(n,vector<int>(k+1,-1));
+  //  return fun(arr,n-1,k,dp);
+    
+    //tabulation
+   // vector<vector<bool>> dp(n,vector<bool>(k+1,false)); 
+    
+   // for(int i=0;i<n;i++) dp[i][0]=true;
+    //dp[0][arr[0]]=true;
+    //
+   // for(int i=1;i<n;i++){
+       // for(int t=1;t<=k;t++){
+           // bool pick=false;
+            //if(arr[i]<=t)
+            //pick = dp[i-1][t-arr[i]];
+            //bool skip = dp[i-1][t];
+    
+            //dp[i][t] = pick | skip; 
+        //}
+    //}
+    
+   //return dp[n-1][k];
+  
+    //sp opti
+    vector<bool> pre(k+1,false),curr(k+1,false);
+    pre[0]=curr[0]=true;
+    if( arr[0]<=k )
+        pre[arr[0]] = true;
+  
+    for(int i=1;i<n;i++){
+       for(int t=1;t<=k;t++){
+    
+           bool pick=false;
+           if(arr[i]<=t)  pick = pre[t-arr[i]];
+           bool skip = pre[t];
+           curr[t] =  pick | skip; 
+       }
+        pre = curr;
+    }
+    
+    return pre[k];
+}
