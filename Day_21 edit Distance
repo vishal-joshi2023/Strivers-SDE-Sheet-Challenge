@@ -1,0 +1,37 @@
+
+//space 
+     int fun(string &s,string &t,int n,int m){
+
+      vector<int> pre(m+1,0),curr(m+1,0);
+      
+      for(int j=0; j<=m ;j++) pre[j] = j;
+      
+      
+      for(int i=1;i<=n;i++){ 
+          curr[0] = i; //j<0 / j==0 -> i+1 / i
+        for(int j=1;j<=m;j++){
+
+           if(s[i-1]==t[j-1])
+              curr[j] = pre[j-1]; 
+           else  
+             curr[j] = 1 + min(curr[j], min(pre[j-1] , pre[j]));
+          }
+
+         pre =curr;
+       }
+
+     return pre[m];
+}
+
+int editDistance(string s, string t)
+{
+        int n=s.length();
+        int m=t.length();
+
+        if(!n) return m;
+        if(!m) return n;
+
+        vector<vector<int>> dp(n,vector<int>(m,-1));
+        return fun(s,t,n,m);
+    
+}
