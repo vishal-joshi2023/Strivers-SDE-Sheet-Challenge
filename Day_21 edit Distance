@@ -1,4 +1,4 @@
-
+#include<bits/stdc++.h>
 //space 
      int fun(string &s,string &t,int n,int m){
 
@@ -23,15 +23,34 @@
      return pre[m];
 }
 
-int editDistance(string s, string t)
+int editDistance(string str1, string str2) 
 {
-        int n=s.length();
-        int m=t.length();
+        // int n=s.length();
+        // int m=t.length();
 
-        if(!n) return m;
-        if(!m) return n;
+        // if(!n) return m;
+        // if(!m) return n;
 
-        vector<vector<int>> dp(n,vector<int>(m,-1));
-        return fun(s,t,n,m);
+        // vector<vector<int>> dp(n,vector<int>(m,-1));
+        // return fun(s,t,n,m);
+
+         int n = str1.size(), m = str2.size();
+  vector<int> prev(m + 1, 0), curr(m + 1, 0);
+
+  for (int j = 0; j <= m; j++)
+    prev[j] = j;
+
+  for (int i = 1; i <= n; i++) {
+    curr[0] = i;
+    for (int j = 1; j <= m; j++) {
+      if (str1[i - 1] == str2[j - 1])
+        curr[j] = prev[j - 1];
+      else
+        curr[j] = 1 + min({curr[j - 1], prev[j], prev[j - 1]});
+    }
+    prev = curr;
+  }
+
+  return prev[m];
     
 }
