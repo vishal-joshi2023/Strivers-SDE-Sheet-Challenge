@@ -1,0 +1,56 @@
+vector<int> bottomView(BinaryTreeNode<int> * root){
+if(root==NULL)return {};
+
+vector<int> v;
+
+queue<pair<BinaryTreeNode<int>*,int>> q;
+
+map<int,int> m;
+
+q.push({root,0});
+
+m[0]=root->data;
+
+while(!q.empty()){
+
+auto it=q.front();
+
+q.pop();
+
+BinaryTreeNode<int> *temp=it.first;
+
+int distance=it.second;
+
+if(temp->left){
+
+    q.push({temp->left,distance-1});
+
+    m[distance-1]=temp->left->data;
+
+}
+
+if(temp->right){
+
+    q.push({temp->right,distance+1});
+
+    m[distance+1]=temp->right->data;
+
+}
+
+ 
+
+}
+
+ 
+
+for(auto it:m){
+
+    v.push_back(it.second);
+
+}
+
+return v;
+
+    // Write your code here.
+
+}
